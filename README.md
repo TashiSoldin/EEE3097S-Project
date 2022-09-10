@@ -7,6 +7,6 @@ This data will then be transmitted using the Iridium communication network, whic
 This repository contains:
 - A paper design: that outlines the theoretical planning for the project and inludes: a requirement analysis, subsystem design, acceptance test procedures and development timeline. 
 - A first progress report: that outlines the simulated practical experimentation for the project and includes: a data analysis, experiment setup, results and acceptance test procedures. 
-    - Data Analysis: jupyter notbook that plots the time and frequency domains and histograms of the provided data.
+    - Data Analysis: jupyter notebook that plots the time and frequency domains and histograms of the provided sample 'Walking Around' data.
 - A second progress report: still in progress
 
