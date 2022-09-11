@@ -4,6 +4,7 @@ from sys import getsizeof
 from pathlib import Path
 import Timing
 from encrypt import AESCipher
+from Crypto.Cipher import AES
 import pyaes, pbkdf2, binascii, os, secrets
 
 def compress(data):
@@ -32,22 +33,33 @@ def compress(data):
 
 def encrypt(data):
     # Derive a 256-bit AES encryption key from the password
-    password = "s3cr3t*c0d3"
+    password = "hello"
     passwordSalt = os.urandom(16)
+    global key
     key = pbkdf2.PBKDF2(password, passwordSalt).read(32)
+
+    # Encrypt the plaintext with the given key:
+    #   ciphertext = AES-256-CTR-Encrypt(plaintext, key, iv)
+    global iv
+    iv = secrets.randbits(256)
+    aes = pyaes.AESModeOfOperationCTR(key, pyaes.Counter(iv))
 
     # Encrypt the data.
     Timing.startlog()
-    encrypted = aes.encrypt(data)
-
+    ciphertext = aes.encrypt(data)
     global iTimeToEncrypt
     iTimeToEncrypt = Timing.endlog()
 
     # Write the binary compressed encrypted data to a file.
     with open('compressed_encrypted_data.txt', 'wb') as f:
-        f.write(encrypted)
+        f.write(ciphertext)
 
 def decrypt(data):
+
+
+    # Decrypt the ciphertext with the given key:
+    #   plaintext = AES-256-CTR-Decrypt(ciphertext, key, iv)
+    aes = pyaes.AESModeOfOperationCTR(key, pyaes.Counter(iv))
 
     # Decrypt the data.
     Timing.startlog()
@@ -63,6 +75,7 @@ def decrypt(data):
 def decompress(data):
     # Decompress the data.
     Timing.startlog()
+    global decompressed
     decompressed = lz4.frame.decompress(data)
     global iTimeToDecompress
     iTimeToDecompress = Timing.endlog()
@@ -71,62 +84,56 @@ def decompress(data):
     decompressed = decompressed.decode()
 
     # Write decompressed data to output file.
-    with open('decompressed_data.csv', 'w') as f:
+    with open('decompressed_decrypted_data.csv', 'w') as f:
         f.write(decompressed)
 
+def compare(original, new):
+    if (original == new):
+        return True
 
 
 def main():
 
     # Write the header of the experimental data file.
-    sOut = "Lines of Data,Compress Time (s),Encrypt Time (s),Decrypt Time (s),Decompress Time (s),Original Size (B),Compressed Size (B),Compression Ratio,Comparison Ratio"
+    sOut = "Lines of Data,Compress Time (s),Encrypt Time (s),Decrypt Time (s),Decompress Time (s),Original Size (B),Compressed Size (B),Compression Ratio,Data Comparison"
     with open("experiment.csv", "w") as f:
         f.write(sOut+"\n")
 
     # Control the number if times the experiment runs. 
-    for j in range(15,34000,3400):
+    for j in range(10,34000,1500):
+
+        print("Lines of data: "+str(j))
         
         # Import the raw data as a string called "data".
-        data = ""
+        original_data = ""
         with open('data.csv') as f:
             lines = f.readlines()
 
         for i in range(0,j):
-            data += repr(lines[i])
+            original_data += lines[i]
         
-        compress(data)
-
-        # Read in the compressed data file.
-        lines = ""
-        lines = Path('compressed_data.txt').read_bytes()
-        decompress(lines)
-
-        """
-        # Get the compressed data and create a string from it
-        with open("compressed_data.txt","rb") as f:
-            fileArray = f.readlines()
+        compress(original_data)
     
         data = ""
+        data = Path("compressed_data.txt").read_bytes()
+        encrypt(data)
 
-        for line in fileArray:
-            data += repr(line)
-        encrypt(data)"""
-
-        
-        """
-        # Get the compressed encrypted data and create a string from it
-        with open("compressed_encrypted_data.txt","rb") as f:
-            fileArray = f.readlines()
     
         data = ""
+        data = Path("compressed_encrypted_data.txt").read_bytes()
+        decrypt(data)
 
-        for line in fileArray:
-            data += str(line)
-        decrypt(data)"""
+        data = ""
+        data = Path("compressed_decrypted_data.txt").read_bytes()
+        decompress(data)
+
+        if (compare(original_data,decompressed)):
+            sComparison = "True"
+        else:
+            sComparison = "False"
 
 
-
-        sOut = str(j)+","+str(iTimeToCompress)+","+str(iTimeToEncrypt)+","+str(iTimeToDecompress)+","+str(iSizeOriginal)+","+str(iSizeCompressed)+","+str(iCompressionRatio)
+        sOut = str(j)+","+str(iTimeToCompress)+","+str(iTimeToEncrypt)+","+str(iTimeToDecrypt)+","+str(iTimeToDecompress)+","+str(iSizeOriginal)+","+str(iSizeCompressed)+","+str(iCompressionRatio)+","+sComparison
         with open("experiment.csv", "a") as f:
             f.write(sOut+"\n")
 
