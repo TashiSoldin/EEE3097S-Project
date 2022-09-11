@@ -4,16 +4,29 @@ import Timing
 
 def main():
     aes = AESCipher('dsabjdbasjkdbasjkdba')
+
+    with open("compressed_data.txt","rb") as f:
+        fileArray = f.readlines()
+
+
+    lines = ""
+
+    for line in fileArray:
+        lines += str(line)
+
+
     
-    # Converting byte text file to string text file ---------------------------
+    """# Converting byte text file to string text file ---------------------------
     lines = ""
     lines = Path('compressed_data.txt').read_bytes()
-    str(lines)
+    str(lines)"""
 
     # Encrypt the data.
     Timing.startlog()
     encrypted = aes.encrypt(lines)
     iTimeToEncrypt = Timing.endlog()
+
+    print(encrypted)
 
     # Decrypt the data.
     Timing.startlog()
