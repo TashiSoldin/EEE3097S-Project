@@ -1,19 +1,13 @@
-from difflib import SequenceMatcher
+count = 0
+total = 0
+file1name = "data.csv"
+file2name = "decompressed_decrypted_data.csv"
 
-with open("data.csv","r") as f:
-        fileArray = f.readlines()
+with open(file1name) as file1, open(file2name) as file2:
+    for line_file_1, line_file_2 in zip(file1, file2):
+        total += 1
+        if line_file_1 != line_file_2:
+            count += 1
 
-text1 = ""
-for line in fileArray:
-    text1 += str(line)
-
-
-with open("decompressed_data.csv","r") as f:
-        fileArray = f.readlines()
-
-text2 = ""
-for line in fileArray:
-    text2 += str(line)
-
-m = SequenceMatcher(None, text1, text2)
-print(m.ratio())
+percentage = ((total-count)/total)*100
+print(percentage)
