@@ -100,7 +100,7 @@ def main():
         f.write(sOut+"\n")
 
     # Control the number if times the experiment runs. 
-    for j in range(10,34000,1500):
+    for j in range(10,10000,3000):
 
         print("Lines of data: "+str(j))
         
