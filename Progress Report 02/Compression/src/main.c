@@ -12,6 +12,7 @@
 #include <string.h>  // For memcmp()
 #include <stdlib.h>  // For exit()
 #include "lz4.h"     // This is all that is required to expose the prototypes for basic compression and decompression.
+#include <time.h>
 
 /*
  * Simple show-error-and-bail function.
@@ -26,6 +27,9 @@ void run_screaming(const char* message, const int code) {
  * main
  */
 int main(void) {
+
+  double time_spent = 0.0;
+  clock_t begin = clock();
   /* Introduction */
   // Below we will have a Compression and Decompression section to demonstrate.
   // There are a few important notes before we start:
@@ -38,7 +42,7 @@ int main(void) {
 
   /* Compression */
   // We'll store some text into a variable pointed to by *src to be compressed later.
-  const char* const src = "Hello my name is Rory and this is compression working in a c implementation. This course can actually go and die because making this work in c has taken lots of late nights. This is a proper test of my knowledge of c. I have spent many many many many many many many many hours on this shit.";
+  const char* const src = "The quick brown fox jumps over the lazy dog. Lets all be unique together until we realise we are all the same. Happiness can be found in the depths of chocolate pudding. The sudden rainstorm washed crocodiles into the ocean. It was her first experience training a rainbow unicorn. He shaved the peach to prove a point. They desperately needed another drummer since the current one only knew how to play bongos. He uses onomatopoeia as a weapon of mental destruction. Her scream silenced the rowdy teenagers. The trick to getting kids to eat anything is to put catchup on it. Don't piss in my garden and tell me you're trying to help my plants grow. Abstraction is often one floor above you. Art doesn't have to be intentional. Normal activities took extraordinary amounts of concentration at the high altitude. Edith could decide if she should paint her teeth or brush her nails. The elderly neighborhood became enraged over the coyotes who had been blamed for the poodle’s disappearance. He found a leprechaun in his walnut shell. That is an appealing treasure map that I can't read. Henry couldn't decide if he was an auto mechanic or a priest. People keep telling me orange but I still prefer pink. He went on a whiskey diet and immediately lost three days. The best part of marriage is animal crackers with peanut butter. I just wanted to tell you I could see the love you have for your child by the way you look at her. Trash covered the landscape like sprinkles do a birthday cake. If any cop asks you where you were, just say you were visiting Kansas. He was all business when he wore his clown suit. There were three sphered rocks congregating in a cubed room. The hawk didn’t understand why the ground squirrels didn’t want to be his friend. The manager of the fruit stand always sat and only sold vegetables. The view from the lighthouse excited even the most seasoned traveler. His mind was blown that there was nothing in space except space itself. The rain pelted the windshield as the darkness engulfed us. Beach-combing replaced wine tasting as his new obsession. The beach was crowded with snow leopards. Strawberries must be the one food that doesn't go well with this brand of paint. She used her own hair in the soup to give it more flavor. He felt that dining on the bridge brought romance to his relationship with his cat. In hopes of finding out the truth, he entered the one-room library. She was disgusted he couldn’t tell the difference between lemonade and limeade. Eating eggs on Thursday for choir practice was recommended. He didn’t want to go to the dentist, yet he went anyway. He took one look at what was under the table and noped the hell out of there. They wandered into a strange Tiki bar on the edge of the small beach town. Hit me with your pet shark! Malls are great places to shop; I can find everything I need under one roof. She had that tint of craziness in her soul that made her believe she could actually make a difference. Carol drank the blood as if she were a vampire. The group quickly understood that toxic waste was the most effective barrier to use against the zombies. He went back to the video to see what had been recorded and was shocked at what he saw. The bird had a belief that it was really a groundhog.";
   // The compression function needs to know how many bytes exist.  Since we're using a string, we can use strlen() + 1 (for \0).
   const int src_size = (int)(strlen(src) + 1);
   // LZ4 provides a function that will tell you the maximum size of compressed output based on input data via LZ4_compressBound().
@@ -96,5 +100,11 @@ int main(void) {
   if (memcmp(src, regen_buffer, src_size) != 0)
     run_screaming("Validation failed.  *src and *new_src are not identical.", 1);
   printf("Validation done. The string we ended up with is:\n%s\n", regen_buffer);
+
+
+  clock_t end = clock();
+  time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+  printf("The elapsed time is %f seconds", time_spent);
+
   return 0;
 }
