@@ -17,7 +17,7 @@ This data will then be transmitted using the Iridium communication network, whic
     - Code: includes the C scripts used in the practical hardware implementation of the project.
     - Excel Speadsheets: inlcuding the results of the IMU validation tests and IMU comparison included in the IMU module.
 - A final report: that contains the final handin for this course.
-    -Code: includes the entire code base for the project to work in a "testing state". This testing state is what was used to generate the final results for the compression and encryption tests.
+    - Code: includes the entire code base for the project to work in a "testing state". This testing state is what was used to generate the final results for the compression and encryption tests.
 
 ## Required Hardware
 To get started working on this project, the following hardware is required:
@@ -177,7 +177,7 @@ OR
 git commit -a -m "Messaage"
 ```
 
-To push to GitLab:
+To push to GitHub:
 
 ```bash
 git push origin main
