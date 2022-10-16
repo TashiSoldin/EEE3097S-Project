@@ -8,5 +8,10 @@ This repository contains:
 - A paper design: that outlines the theoretical planning for the project and inludes: a requirement analysis, subsystem design, acceptance test procedures and development timeline. 
 - A first progress report: that outlines the simulated practical experimentation for the project and includes: a data analysis, experiment setup, results and acceptance test procedures. 
     - Data Analysis: jupyter notebook that plots the time and frequency domains and histograms of the provided sample 'Walking Around' data.
+    - Code: includes the python scripts used in the simulated software implementation of the project.
 - A second progress report: that outlines the practical experimentation for the project and includes: an IMU module, experiment setup, results and acceptance test procedures. 
+    - Code: includes the C scripts used in the practical hardware implementation of the project.
+    - Excel Speadsheets: inlcuding the results of the IMU validation tests and IMU comparison included in the IMU module.
+
+
 
