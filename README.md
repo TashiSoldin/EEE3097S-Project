@@ -1,23 +1,3 @@
-# EEE3097S-Project
-
-The following project design is for an ARM based digital IP using an STM32F051-microcontroller. This design aims to retrieve, compress and encrypt data from an Inertial Measurement Unit (IMU) sensor. This type of sensor includes an Accelerometer, a Gyroscope, a Magnetometer and a Barometer. This design will be implemented as a buoy installed on an ice 'pancake' in the Southern Ocean to collect data about the ice and wave dynamics. 
-
-This data will then be transmitted using the Iridium communication network, which is a global satellite communications network. However, this is extremely costly and therefore the data would need to be compressed to reduce its size. The data is also encrypted for security purposes. 
-
-This repository contains:
-- A paper design: that outlines the theoretical planning for the project and inludes: a requirement analysis, subsystem design, acceptance test procedures and development timeline. 
-- A first progress report: that outlines the simulated practical experimentation for the project and includes: a data analysis, experiment setup, results and acceptance test procedures. 
-    - Data Analysis: jupyter notebook that plots the time and frequency domains and histograms of the provided sample 'Walking Around' data.
-    - Code: includes the python scripts used in the simulated software implementation of the project.
-- A second progress report: that outlines the practical experimentation for the project and includes: an IMU module, experiment setup, results and acceptance test procedures. 
-    - Code: includes the C scripts used in the practical hardware implementation of the project.
-    - Excel Speadsheets: inlcuding the results of the IMU validation tests and IMU comparison included in the IMU module.
-
-
-
-
-
-
 # EEE3097S Design Project
 
 ## Welcome
@@ -36,6 +16,8 @@ This data will then be transmitted using the Iridium communication network, whic
 - A second progress report: that outlines the practical experimentation for the project and includes: an IMU module, experiment setup, results and acceptance test procedures. 
     - Code: includes the C scripts used in the practical hardware implementation of the project.
     - Excel Speadsheets: inlcuding the results of the IMU validation tests and IMU comparison included in the IMU module.
+- A final report: that contains the final handin for this course.
+    -Code: includes the entire code base for the project to work in a "testing state". This testing state is what was used to generate the final results for the compression and encryption tests.
 
 ## Required Hardware
 To get started working on this project, the following hardware is required:
@@ -58,40 +40,28 @@ As well as the above mentioned hardware, the following software/tools are needed
 
 | Hardware     | Quantity |
 | :----------- | :-----------:|
-| STM32 Cube IDE (Or equivalent) | x 1|
-| Serial Port Monitor  | x 1|
+| STM32 Cube IDE (Or equivalent such as VS Code) | x 1|
+| Serial Port Monitor (Putty on Windows, or SerialTools on Mac) | x 1|
 
 Note: The latest STM software needs to be loaded onto the STM32f051 for this project, this can be done with the STM32 Cube IDE software. 
 
 ## Connecting the Hardware
-The pins on the HAT and the STM32f051 need to be connected in the following way:
-| HAT Pin     | STM32f051 Pin |
+The pins on the WaveShare SenseHAT that need to be connected to the STM32f051 are the following:
+| WaveShare HAT Pin     | STM32f051 Pin |
 | :-----------: | :-----------:|
-| GND | GND|
-| J4 (5V)  | 5V|
-| SDA1  | PB7|
-| SCL1  | PB6|
-| MCS  (MOSFET SWITCH) | PB5 |
-| SDA | PF7 |
-| SCL | PF6 |
-| TP12 (RX) | PA9 |
-| TP13 (TX)| PA10 |
-| PD (Plug Detect) | PB1 |
-| AN (Analogue Sensor) | PC0 |
-| J1 (3V) | 3V |
+| GND | GND |
+| 3.3V | 3.3V |
+| SDA | PB7|
+| SCL | PB6|
 
-Circuit diagram photos of the required setup can be seen below:
-### The Power Circuit:
-![The Power Circuit](Docs/Circuit Diagram Guide/power.png)
+The pins on the FTDI adaptor that need to be connected to the STM32f051 are the following:
+| FTDI Adaptor    | STM32f051 Pin |
+| :-----------: | :-----------:|
+| GND | GND |
+| 5V | 5V |
+| TX | PA10|
+| RX | PA9|
 
-### The Digital Sensor Circuit:
-![The Power Circuit](Docs/Circuit Diagram Guide/digital.png)
-
-### The Analogue Sensor Circuit:
-![The Power Circuit](Docs/Circuit Diagram Guide/analogue.png)
-
-### The Communications Sensor Circuit:
-![The Power Circuit](Docs/Circuit Diagram Guide/coms.png)
 
 ## Run our Program
 To run our program and test if all the connections are working properly, create a clone of the repository to your local machine, do this by running the following code:
