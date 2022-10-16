@@ -69,14 +69,14 @@ To run our program and test if all the connections are working properly, create 
 cd storage_directory
 ```
 ```bash
-git clone https://gitlab.com/g5332/eee3088F-HAT.git
+git clone https://github.com/TashiSoldin/EEE3097S-Project.git
 ```
 To get the latest version of the main branch, run:
 
 ```bash
 git pull origin main
 ```
-Open the STM32 Cube IDE Software and open the project file in the firmware folder called "EEE3088F_HAT_C_Code". Build the code, and then debug the code with the STM32f051 plugged in to your computer. Click the run button in the STM32 Cube IDE.
+Open the STM32 Cube IDE or your preferred choice of development software and open the project file in the Final Report folder called "code". Build the code, and then upload it to your STM32f051 while it is plugged in to your computer.
 
 The code should now be uploaded to the STM32f051. To moniter the ouput of the board connect the micro-usb from the HAT to your computer, a serial port monitor is needed. On a mac run the following command:
 ```bash
@@ -90,6 +90,7 @@ Writing 0x14 to EEPROM address 0x189
 Reading from EEPROM address 0x189
 Received data: 20ºC
 ```
+Alternativly, you can download the free serial software called "SerialTools" and use this to monitor your serial port of choice.
 
 If Windows is being used, install the free software package called "Putty" to monitor the serial port. Instructions on how to setup Putty can be found on the following website: https://www.putty.org 
 
